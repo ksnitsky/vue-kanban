@@ -2,10 +2,13 @@
 import { computed } from '@vue/reactivity';
 import { ref } from 'vue';
 
-const props = defineProps<{
-  isCol: Boolean | true,
-  placeholder: String | 'Добавить колонку',
-}>();
+const props = withDefaults(defineProps<{
+  isCol?: Boolean,
+  placeholder?: String
+}>(), {
+  isCol: () => false,
+  placeholder: () => 'Добавить карточку',
+});
 
 const emit = defineEmits<{
   (e: 'createCol', value: string): void,
@@ -79,10 +82,11 @@ const emitEvent = (value: string): void => {
 
 <style>
 .new-card {
-  margin: .75rem;
-
+  padding: .75rem;
+  width: 100%;
   color: #6B808C;
   background-color: #DFE3E6;
+
 }
 
 .standart {

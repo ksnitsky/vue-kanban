@@ -2,7 +2,7 @@
 import { CardType } from '../types/card.type';
 
 const props = defineProps<{
-  card?: CardType,
+  card: CardType,
 }>();
 
 </script>

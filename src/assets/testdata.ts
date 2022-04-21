@@ -54,7 +54,7 @@ export const testdata: ColumnType[] = [
         content: "Пройти курс по React",
       },
       {
-        content: "Отметить день рождения",
+        content: "Отметить денsdь рождения",
       }
     ]
   },

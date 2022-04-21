@@ -5,7 +5,7 @@ import Card from './Card.vue';
 import newBlock from './_newBlock.vue';
 
 const props = defineProps<{
-  column?: ColumnType,
+  column: ColumnType,
 }>();
 
 
@@ -19,26 +19,22 @@ const createCard = (value: string): void => {
 
 <template>
   <div class="column">
-    <div >
-      <h2>
-        {{ column.title }}
-      </h2>
+    <h2>
+      {{ column.title }}
+    </h2>
 
-      <ul>
-        <Card
-          v-for="(card, index) in column.cards"
-          :card="card"
-          :key="index"
-        ></Card>
-      </ul>
+    <ul>
+      <Card
+        v-for="(card, index) in column.cards"
+        :card="card"
+        :key="index"
+      ></Card>
+    </ul>
 
-      <newBlock
-        :is-col="false"
-        placeholder="Добавить карточку"
-        @create-card="createCard"
-      >
-      </newBlock>
-    </div>
+    <newBlock
+      @create-card="createCard"
+    >
+    </newBlock>
   </div>
 </template>
 
@@ -49,23 +45,34 @@ const createCard = (value: string): void => {
   height: fit-content;
   max-height: 100%;
 
-  overflow: hidden;
+  overflow-y: hidden;
   background-color: #DFE3E6;
 
   border-radius: .1875rem;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .column h2 {
-  padding: .75rem .75rem 0;
+  padding: .75rem;
   font-weight: bold;
+
+  background-color: #DFE3E6;
+  z-index: 100;
+  overflow-wrap: break-word;
 }
 
 .column ul {
+  width: 100%;
   list-style: none;
-  padding: .75rem;
-  max-height: 25rem;
+  padding: 0 .75rem .75rem;
+  height: fit-content;
+  max-height: 100vh;
 
   overflow-y: auto;
+  scroll-behavior: smooth;
 
   display: flex;
   flex-direction: column;

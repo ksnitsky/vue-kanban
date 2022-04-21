@@ -48,5 +48,7 @@ const createCol = (newCol: string): void => {
   display: flex;
   flex-direction: row;
   gap: .75rem;
+
+  overflow: hidden;
 }
 </style>
