@@ -1,18 +1,10 @@
 <script setup lang="ts">
 import newBlock from './_newBlock.vue';
 import Column from './Column.vue';
-import { ref } from 'vue';
-import { testdata } from '../assets/testdata';
+import { useDataStore } from '../stores/DataStore';
 
-const columns = ref(testdata);
-
-const createCol = (newCol: string): void => {
-  columns.value.push({
-    id: columns.value.length,
-    title: newCol,
-    cards: [],
-  });
-};
+const dataStore = useDataStore();
+const { columns } = dataStore;
 
 </script>
 
@@ -29,7 +21,7 @@ const createCol = (newCol: string): void => {
       <newBlock
         :is-col="true"
         placeholder="Добавить колонку"
-        @create-col="createCol"
+        @create-col="dataStore.createCol"
       >
       </newBlock>
     </div>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed } from '@vue/reactivity';
-import { ref } from 'vue';
+import { computed, ref } from '@vue/reactivity';
 
 const props = withDefaults(defineProps<{
   isCol?: Boolean,
@@ -17,8 +16,15 @@ const emit = defineEmits<{
 
 const create = ref(false);
 const newValue = ref('');
+const invalid = ref(false);
 
-const toggle = () => create.value = !create.value;
+const toggleForm = () => {
+  invalid.value = false;
+  create.value = !create.value;
+  return newValue.value = '';
+};
+
+const toggleInvalid = (): void => { invalid.value = !invalid.value }
 
 const anotherOne = computed(() => {
   const arr: string[] = props.placeholder?.split(' ');
@@ -26,8 +32,12 @@ const anotherOne = computed(() => {
 });
 
 const emitEvent = (value: string): void => {
+  if (!value) {
+    invalid.value = true;
+    return ;
+  }
   props.isCol ? emit('createCol', value) : emit('createCard', value);
-  newValue.value = '';
+  toggleForm() && toggleInvalid();
 }
 
 </script>
@@ -37,7 +47,7 @@ const emitEvent = (value: string): void => {
     <div 
       class="standart"
       v-if="!create"
-      @click="toggle"
+      @click="toggleForm"
     >
       <span class="new-card__plus">
       </span>
@@ -47,9 +57,15 @@ const emitEvent = (value: string): void => {
       </span>
     </div>
 
-    <div class="create-form" v-if="create">
+    <form
+      class="create-form"
+      v-if="create"
+      @submit.prevent="emitEvent(newValue)"
+    >
         <input
           v-if="isCol"
+          :class="{ invalid: invalid  }"
+          @input="() => invalid = false"
           type="text"
           placeholder="Введите название колонки"
           v-model="newValue"
@@ -57,26 +73,25 @@ const emitEvent = (value: string): void => {
 
         <textarea
           v-else
+          :class="{ invalid: invalid  }"
+          @input="() => invalid = false"
           placeholder="Введите название карточки"
           v-model="newValue"
         >
         </textarea>
 
       <div class="create-form__bottom">
-          <button
-            class="create-form__create"
-            @click="emitEvent(newValue);   toggle();"
-          >
+          <button class="create-form__create" type="submit">
             {{ placeholder }}
           </button>
 
         <span
           class="create-form__discard"
-          @click="toggle"
+          @click="toggleForm"
         >
         </span>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -86,7 +101,6 @@ const emitEvent = (value: string): void => {
   width: 100%;
   color: #6B808C;
   background-color: #DFE3E6;
-
 }
 
 .standart {
@@ -151,6 +165,10 @@ textarea, input {
 
 .create-form__create:active {
   background-color: #188c49;
+}
+
+.invalid {
+  outline: .0938rem solid #ff3e00;
 }
 
 </style>

@@ -9,9 +9,7 @@ const props = defineProps<{
 
 <template>
   <li>
-    <div
-      draggable="true"
-    >
+    <div draggable="true">
       <p>
         {{ card.content }}
       </p>

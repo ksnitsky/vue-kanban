@@ -1,19 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { ColumnType } from '../types/column.type';
 import Card from './Card.vue';
 import newBlock from './_newBlock.vue';
+import { useDataStore } from '../stores/DataStore';
 
 const props = defineProps<{
   column: ColumnType,
 }>();
 
-
-const createCard = (value: string): void => {
-  props.column?.cards.push({
-    content: value
-  });
-};
+const createCard = (content: string): void =>
+  useDataStore().createCard(props.column, content);
 
 </script>
 
@@ -23,7 +19,7 @@ const createCard = (value: string): void => {
       {{ column.title }}
     </h2>
 
-    <ul>
+    <ul v-if="column.cards.length">
       <Card
         v-for="(card, index) in column.cards"
         :card="card"
@@ -41,7 +37,8 @@ const createCard = (value: string): void => {
 <style >
 .column {
   z-index: 0;
-  width: 17rem;
+  /* width: 17rem; */
+  width: 18rem;
   height: fit-content;
   max-height: 100%;
 
@@ -56,7 +53,7 @@ const createCard = (value: string): void => {
 }
 
 .column h2 {
-  padding: .75rem;
+  padding: .75rem .75rem .375rem;
   font-weight: bold;
 
   background-color: #DFE3E6;
@@ -67,8 +64,7 @@ const createCard = (value: string): void => {
 .column ul {
   width: 100%;
   list-style: none;
-  padding: 0 .75rem .75rem;
-  height: fit-content;
+  padding: .375rem .75rem .375rem;
   max-height: 100vh;
 
   overflow-y: auto;
