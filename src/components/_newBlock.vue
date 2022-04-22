@@ -18,6 +18,7 @@ const create = ref(false);
 const newValue = ref('');
 const invalid = ref(false);
 
+
 const toggleForm = () => {
   invalid.value = false;
   create.value = !create.value;
@@ -62,23 +63,23 @@ const emitEvent = (value: string): void => {
       v-if="create"
       @submit.prevent="emitEvent(newValue)"
     >
-        <input
-          v-if="isCol"
-          :class="{ invalid: invalid  }"
-          @input="() => invalid = false"
-          type="text"
-          placeholder="Введите название колонки"
-          v-model="newValue"
-        />
+      <input
+        v-if="isCol"
+        :class="{ invalid: invalid  }"
+        @input="() => invalid = false"
+        type="text"
+        placeholder="Введите название колонки"
+        v-model="newValue"
+      />
 
-        <textarea
-          v-else
-          :class="{ invalid: invalid  }"
-          @input="() => invalid = false"
-          placeholder="Введите название карточки"
-          v-model="newValue"
-        >
-        </textarea>
+      <textarea
+        v-else
+        :class="{ invalid: invalid  }"
+        @input="() => invalid = false"
+        placeholder="Введите название карточки"
+        v-model="newValue"
+      >
+      </textarea>
 
       <div class="create-form__bottom">
           <button class="create-form__create" type="submit">

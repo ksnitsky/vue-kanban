@@ -1,15 +1,28 @@
 <script setup lang="ts">
-import { ColumnType } from '../types/column.type';
 import Card from './Card.vue';
+import draggable from 'vuedraggable/src/vuedraggable';
 import newBlock from './_newBlock.vue';
+import { ColumnType } from '../types/column.type';
 import { useDataStore } from '../stores/DataStore';
+import { ref, computed } from 'vue';
 
 const props = defineProps<{
   column: ColumnType,
 }>();
 
+const drag = ref(false);
+
 const createCard = (content: string): void =>
   useDataStore().createCard(props.column, content);
+
+const dragOptions = computed(() => {
+  return {
+    animation: 250,
+    group: "columns",
+    disabled: false,
+    ghostClass: "ghost"
+  };
+});
 
 </script>
 
@@ -19,16 +32,27 @@ const createCard = (content: string): void =>
       {{ column.title }}
     </h2>
 
-    <ul v-if="column.cards.length">
-      <Card
-        v-for="(card, index) in column.cards"
-        :card="card"
-        :key="index"
-      ></Card>
-    </ul>
+    <draggable
+      tag="ul"
+      @start="drag = true"
+      @end="drag = false"
+      v-model="column.cards"
+      v-bind="dragOptions"
+      item-key="id"
+    >
+      <template #item="{ element }">
+        <Card
+          :card="element"
+          :key="element.id"
+          :class="
+            element.fixed ? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'
+          "
+        ></Card>
+      </template>
+    </draggable>
 
     <newBlock
-      @create-card="createCard"
+      @createCard="createCard"
     >
     </newBlock>
   </div>
@@ -37,7 +61,6 @@ const createCard = (content: string): void =>
 <style >
 .column {
   z-index: 0;
-  /* width: 17rem; */
   width: 18rem;
   height: fit-content;
   max-height: 100%;
@@ -82,5 +105,17 @@ const createCard = (content: string): void =>
 
 .column ul::-webkit-scrollbar {
   display: none;
+}
+
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
 }
 </style>
