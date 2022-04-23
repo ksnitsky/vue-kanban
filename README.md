@@ -23,4 +23,3 @@ This is an old test assignment for a frontend intern that I found in my Figma.
 - [Pinia](https://pinia.vuejs.org)
 - [Vue Draggable](https://github.com/SortableJS/vue.draggable.next) drag-and-drop library
 - [Vite](https://vitejs.dev)
-- 
