@@ -15,7 +15,7 @@ This is an old test assignment for a frontend intern that I found in my Figma.
 ![](concept.png)
 
 ### Live demo
-[Vercel link]()
+[Vercel link](https://vue-kanban.vercel.app)
 
 ### Built with
 
