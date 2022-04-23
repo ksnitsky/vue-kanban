@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import Card from './Card.vue';
-import draggable from 'vuedraggable/src/vuedraggable';
+import draggable from 'vuedraggable';
 import newBlock from './_newBlock.vue';
 import { ColumnType } from '../types/column.type';
 import { useDataStore } from '../stores/DataStore';
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps<{
   column: ColumnType,
 }>();
-
-const drag = ref(false);
 
 const createCard = (content: string): void =>
   useDataStore().createCard(props.column, content);
@@ -18,7 +16,7 @@ const createCard = (content: string): void =>
 const dragOptions = computed(() => {
   return {
     animation: 250,
-    group: "columns",
+    group: "cards",
     disabled: false,
     ghostClass: "ghost"
   };
@@ -27,26 +25,22 @@ const dragOptions = computed(() => {
 </script>
 
 <template>
-  <div class="column">
-    <h2>
+  <div class="column-item">
+    <h2 class="handle">
       {{ column.title }}
     </h2>
 
     <draggable
       tag="ul"
-      @start="drag = true"
-      @end="drag = false"
+
       v-model="column.cards"
       v-bind="dragOptions"
-      item-key="id"
+      itemKey="id"
     >
       <template #item="{ element }">
         <Card
           :card="element"
           :key="element.id"
-          :class="
-            element.fixed ? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'
-          "
         ></Card>
       </template>
     </draggable>
@@ -59,7 +53,7 @@ const dragOptions = computed(() => {
 </template>
 
 <style >
-.column {
+.column-item {
   z-index: 0;
   width: 18rem;
   height: fit-content;
@@ -75,7 +69,7 @@ const dragOptions = computed(() => {
   flex-direction: column;
 }
 
-.column h2 {
+.column-item h2 {
   padding: .75rem .75rem .375rem;
   font-weight: bold;
 
@@ -84,7 +78,7 @@ const dragOptions = computed(() => {
   overflow-wrap: break-word;
 }
 
-.column ul {
+.column-item ul {
   width: 100%;
   list-style: none;
   padding: .375rem .75rem .375rem;
@@ -98,23 +92,24 @@ const dragOptions = computed(() => {
   gap: .75rem;
 }
 
-.column ul {
+.column-item ul {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
-.column ul::-webkit-scrollbar {
+.column-item ul::-webkit-scrollbar {
   display: none;
 }
 
 .ghost {
   opacity: 0.5;
-  background: #c8ebfb;
+  background-color: #C9D2D9 !important;
 }
 
 .flip-list-move {
   transition: transform 0.5s;
 }
+
 .no-move {
   transition: transform 0s;
 }

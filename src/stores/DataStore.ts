@@ -5,15 +5,18 @@ export const useDataStore = defineStore('DataStore', {
   state: () => ({
     columns: <ColumnType[]>[],
   }),
-  
+
   getters: {
-    nextColumnId: (state): number => state.columns.length,
+    nextColumnId: (state): number =>
+      Math.max(...state.columns.flatMap(column =>
+        column.id
+      )) + 1 | 1,
 
     // If I don't use the api, it could be a big performance problem
     nextCardId: (state): number =>
-      Math.max(...state.columns.flatMap(column =>
-        column.cards.flatMap(card => card.id)
-      )) + 1
+      Math.max(...state?.columns?.flatMap(column =>
+        column?.cards?.flatMap(card => card.id)
+      )) + 1 | 1,
   },
 
   actions: {
