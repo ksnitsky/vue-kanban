@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import Card from './Card.vue';
-import draggable from 'vuedraggable';
-import newBlock from './_newBlock.vue';
 import { ColumnType } from '../types/column.type';
 import { useDataStore } from '../stores/DataStore';
 import { computed } from 'vue';
+import Card from './Card.vue';
+import draggable from 'vuedraggable';
+import newBlock from './_newBlock.vue';
 
 const props = defineProps<{
   column: ColumnType,
