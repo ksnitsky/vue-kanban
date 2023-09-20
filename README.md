@@ -14,9 +14,6 @@ This is an old test assignment for a frontend intern that I found in my Figma.
 
 ![](concept.png)
 
-### Live demo
-[Vercel link](https://vue-kanban.vercel.app)
-
 ### Built with
 
 - [Vue3](https://vuejs.org) Composition API with [TypeScript](https://www.typescriptlang.org)
