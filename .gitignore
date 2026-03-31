@@ -25,3 +25,14 @@ dist-ssr
 *.sw?
 
 testdata.ts
+
+# Environment
+.env
+.env.local
+.env.*.local
+frontend/.env.development
+
+# Backend
+backend/.env
+backend/dist
+backend/migrations/.dbmate
