@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from '@vue/reactivity';
+import { computed, ref } from 'vue';
 
 const props = withDefaults(defineProps<{
   isCol?: Boolean,
